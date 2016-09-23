@@ -35,21 +35,20 @@ static void Reach(int i, const vec3 &target, std::vector<Link> &const links) {
     // *********************************
     // Get the Angle between the two vectors
 	  float angleBetween = angle(vLinkBaseToEndEffDirection, vLinkBaseToTargetDirection);
-
     // Turn into a Quat with our axis
 	  quat qFinal = angleAxis(angleBetween, vLinkAxis);
     // Multply our current Quat with it
-
+	  qFinal *= qCur;
     // Pull out the angle component, set the link params
-
+	  links[i].m_angle = angle(qFinal);
     // *********************************
   }
 }
 
 void ik_1dof_Update(const vec3 &const target, std::vector<Link> &const links, const float linkLength) {
   numLinks = links.size();
-  // for (size_t i = links.size(); i >= 1; --i) {
-  for (size_t i = 0; i < links.size() - 1; ++i) {
+  //for (size_t i = links.size(); i >= 1; --i) {
+  for (size_t i = 0; i < links.size(); ++i) {
     UpdateHierarchy();
     Reach(i, target, links);
     const float distance = length(vec3(links[links.size() - 1].m_end[3]) - target);

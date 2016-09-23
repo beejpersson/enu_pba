@@ -59,7 +59,7 @@ void UpdateIK() {
   if (distance < 0.5f) {
     MoveTarget();
   }
-  // ik_1dof_Update(target, links, linkLength);
+  //ik_1dof_Update(target, links, linkLength);
   ik_3dof_Update(target, links, linkLength);
 }
 
