@@ -35,9 +35,9 @@ static void Reach(int i, const vec3 &target, std::vector<Link> &const links) {
   if (abs(cosAngle) < 1.0f) {
     // *********************************
     // Get the Axis perpendicular to the two vectors
-	  vec3 perpAxis = normalize(cross(vLinkBaseToEndEffDirection,vLinkBaseToTargetDirection));
+	  vec3 perpAxis = normalize(cross(vLinkBaseToTargetDirection, vLinkBaseToEndEffDirection));
     // Get the Angle between the two vectors
-	  float angleBetween = angle(vLinkBaseToEndEffDirection, vLinkBaseToTargetDirection);
+	  float angleBetween = angle(vLinkBaseToTargetDirection, vLinkBaseToEndEffDirection);
     // Turn into a Quat
 	  quat qFinal = angleAxis(angleBetween, perpAxis);
     // Multply our current Quat with it
