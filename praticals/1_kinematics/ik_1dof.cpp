@@ -44,14 +44,15 @@ static void Reach(const size_t i, const dvec3 &target, std::vector<Link> &links)
   }
 }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 void ik_1dof_Update(const vec3 &const target, std::vector<Link> &const links, const float linkLength) {
-  numLinks = links.size();
+	int numLinks = links.size();
+}
   //for (size_t i = links.size(); i >= 1; --i) {
-=======
+//=======
 void ik_1dof_Update(const dvec3 & target, std::vector<Link> &links, const double linkLength) {
   // for (size_t i = links.size(); i >= 1; --i) {
->>>>>>> Sam's_Repo/master
+//>>>>>>> Sam's_Repo/master
   for (size_t i = 0; i < links.size(); ++i) {
     UpdateHierarchy();
     Reach(i, target, links);
