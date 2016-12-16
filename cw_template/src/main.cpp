@@ -15,6 +15,7 @@ using namespace glm;
 static vector<unique_ptr<Entity>> SceneList;
 static unique_ptr<Entity> floorEnt;
 
+//Initialising variables
 double cursor_x = 0.0;
 double cursor_y = 0.0;
 int cam_select = 0;
@@ -22,6 +23,7 @@ free_camera free_cam;
 float cam_speed;
 target_camera targ_cam;
 target_camera rot_cam;
+int scene_select = 0;
 
 bool initialise()
 {
@@ -34,10 +36,11 @@ bool initialise()
 	return true;
 }
 
-unique_ptr<Entity> CreateParticle()
+// Sphere creator
+unique_ptr<Entity> CreateParticle(const vec3 &position)
 {
 	unique_ptr<Entity> ent(new Entity());
-	ent->SetPosition(vec3(-2.0, 5.0 + (double)(rand() % 200) / 20.0, 2.0));
+	ent->SetPosition(position);
 	unique_ptr<Component> physComponent(new cParticle());
 	unique_ptr<cShapeRenderer> renderComponent(new cShapeRenderer(cShapeRenderer::SPHERE));
 	renderComponent->SetColour(phys::RandomColour());
@@ -47,6 +50,7 @@ unique_ptr<Entity> CreateParticle()
 	return ent;
 }
 
+// Box creator
 unique_ptr<Entity> CreateBox(const vec3 &position)
 {
 	unique_ptr<Entity> ent(new Entity());
@@ -65,16 +69,6 @@ unique_ptr<Entity> CreateBox(const vec3 &position)
 
 bool update(float delta_time)
 {
-	// Press space to rotate cube positively along Z axis
-	if (glfwGetKey(renderer::get_window(), GLFW_KEY_SPACE)) {
-		for (auto &e : SceneList) {
-			auto b = e->getComponent<cRigidCube>();
-			if (b != NULL) {
-				b->AddAngularForce({ 0, 0, 5.0 });
-			}
-		}
-	}
-
 	// Timing update using fixed timestep
 	static double t = 0.0;
 	static double accumulator = 0.0;
@@ -85,10 +79,44 @@ bool update(float delta_time)
 		t += physics_tick;
 	}
 
+	// Press space to rotate cubes
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_SPACE)) {
+		for (auto &e : SceneList) {
+			auto b = e->getComponent<cRigidCube>();
+			if (b != NULL) {
+				b->AddAngularForce({ 0, 0, 5.0 });
+			}
+		}
+	}
+
+	// Press arrow keys to move ball
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_UP))
+	{
+		SceneList.at(0)->getComponent<cParticle>()->AddLinearForce({ 0.0, 0.0, -20.0 });
+	}
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_DOWN))
+	{
+		SceneList.at(0)->getComponent<cParticle>()->AddLinearForce({ 0.0, 0.0, 20.0 });
+	}
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_LEFT))
+	{
+		SceneList.at(0)->getComponent<cParticle>()->AddLinearForce({ -20.0, 0.0, 0.0 });
+	}
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_RIGHT))
+	{
+		SceneList.at(0)->getComponent<cParticle>()->AddLinearForce({ 20.0, 0.0, 0.0 });
+	}
+
 	// Update objects in scene list
 	for (auto &e : SceneList) {
 		e->Update(delta_time);
 	}
+
+	// Use keyboard numbers to change camera
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_5))
+		scene_select = 0;
+	if (glfwGetKey(renderer::get_window(), GLFW_KEY_6))
+		scene_select = 1;
 
 	// The ratio of pixels to rotation
 	static double ratio_width = quarter_pi<float>() / static_cast<float>(renderer::get_screen_width());
@@ -174,11 +202,22 @@ bool load_content()
 {
 	// Load scene list content
 	phys::Init();
+	SceneList.push_back(move(CreateParticle({ 20.0, 0.0, 0.0 })));
 	for (size_t i = 0; i < 4; i++)
 	{
-		SceneList.push_back(move(CreateParticle()));
+		SceneList.push_back(move(CreateParticle({ -2.0, 5.0 + (double)(rand() % 200) / 20.0, 0.0 })));
 	}
-	SceneList.push_back(move(CreateBox({ 0, 4, 0 })));
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		SceneList.push_back(move(CreateParticle({ -2.0, 5.0 + (double)(rand() % 200) / 20.0, 8.0 })));
+	}
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		SceneList.push_back(move(CreateBox({ 0, 2*i, 2*i })));
+	}
+
 
 	// Load floor
 	floorEnt = unique_ptr<Entity>(new Entity());
@@ -203,22 +242,28 @@ bool load_content()
 
 bool render() {
 
-	phys::DrawSphere(glm::vec3(4.0f, 4.0f, 0), 1.0f, RED);
-	phys::DrawSphere(glm::vec3(-4.0f, 4.0f, 0), 1.0f, RED);
-	phys::DrawSphere(glm::vec3(0, 8.0f, 0), 0.2f, YELLOW);
-	phys::DrawSphere(glm::vec3(0), 1.0f, GREEN);
-	phys::DrawSphere(glm::vec3(0, 4.0f, 4.0f), 1.0f, BLUE);
-	phys::DrawSphere(glm::vec3(0, 4.0f, -4.0f), 1.0f, BLUE);
-	phys::DrawCube(glm::vec3(0, 4.0f, 0));
-	phys::DrawLine(glm::vec3(0, 4.0f, 4.0f), glm::vec3(0, 8.0f, 0));
-	phys::DrawLine(glm::vec3(0, 4.0f, -4.0f), glm::vec3(0, 8.0f, 0));
-	phys::DrawLine(glm::vec3(4.0f, 4.0f, 0), glm::vec3(0), true, ORANGE);
-	phys::DrawLine(glm::vec3(-4.0f, 4.0f, 0), glm::vec3(0), true, PINK);
-	phys::DrawLineCross(glm::vec3(0, 8.0f, 0), 1.0f, false);
-	phys::DrawArrow(glm::vec3(0, 4.0f, 0), glm::vec3(0, 8.0f, 0), 1.0f, GREY);
-
-	for (auto &e : SceneList) {
-		e->Render();
+	// Render desired scene
+	if (scene_select == 0)
+	{
+		phys::DrawSphere(glm::vec3(4.0f, 4.0f, 0), 1.0f, RED);
+		phys::DrawSphere(glm::vec3(-4.0f, 4.0f, 0), 1.0f, RED);
+		phys::DrawSphere(glm::vec3(0, 8.0f, 0), 0.2f, YELLOW);
+		phys::DrawSphere(glm::vec3(0), 1.0f, GREEN);
+		phys::DrawSphere(glm::vec3(0, 4.0f, 4.0f), 1.0f, BLUE);
+		phys::DrawSphere(glm::vec3(0, 4.0f, -4.0f), 1.0f, BLUE);
+		phys::DrawCube(glm::vec3(0, 4.0f, 0));
+		phys::DrawLine(glm::vec3(0, 4.0f, 4.0f), glm::vec3(0, 8.0f, 0));
+		phys::DrawLine(glm::vec3(0, 4.0f, -4.0f), glm::vec3(0, 8.0f, 0));
+		phys::DrawLine(glm::vec3(4.0f, 4.0f, 0), glm::vec3(0), true, ORANGE);
+		phys::DrawLine(glm::vec3(-4.0f, 4.0f, 0), glm::vec3(0), true, PINK);
+		phys::DrawLineCross(glm::vec3(0, 8.0f, 0), 1.0f, false);
+		phys::DrawArrow(glm::vec3(0, 4.0f, 0), glm::vec3(0, 8.0f, 0), 1.0f, GREY);
+	}
+	else if (scene_select == 1)
+	{
+		for (auto &e : SceneList) {
+			e->Render();
+		}
 	}
 
 	phys::DrawScene();
