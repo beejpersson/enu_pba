@@ -1,3 +1,55 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{\protect\citename{Karthikeyan and Ranganathan }1998}
+
+\bibitem[\protect\citename{Babic }1999]{kristopher}
+{\sc Babic, K.}, 1999.
+\newblock Cloth modeling.
+\newblock \url{http://davis.wpi.edu/~matt/courses/cloth/}, April.
+
+\bibitem[\protect\citename{Breen }1994]{Breen}
+{\sc Breen, D.}
+\newblock 1994.
+\newblock A particle-based model for simulating the draping behaviour of woven
+  cloth.
+\newblock {\em Textile Research Journal 64}, 11.
+
+\bibitem[\protect\citename{Chipper }2015]{flag}
+{\sc Chipper}, 2015.
+\newblock Animate a 3d flag blowing in the wind.
+\newblock \url{https://youtu.be/5G2HpsH9rMQ}, May.
+
+\bibitem[\protect\citename{Feynman }1986]{Feynman}
+{\sc Feynman, C.}
+\newblock 1986.
+\newblock Modelling the appearance of cloth.
+\newblock Tech. rep.
+\newblock Masters Thesis, Dept of EECS, Massachusetts Inst. of Technology.
+
+\bibitem[\protect\citename{Karthikeyan and Ranganathan }1998]{Karthikeyan}
+{\sc Karthikeyan, P.~S., and Ranganathan, P.~S.}, 1998.
+\newblock Tutorial on cloth modelling, May.
+\newblock ACM Student Tutorial Contest.
+
+\bibitem[\protect\citename{Narain et~al\mbox{.} }2012]{object}
+{\sc Narain, R., Samii, A., and O'Brien, J.~F.}
+\newblock 2012.
+\newblock Adaptive anisotropic remeshing for cloth simulation.
+\newblock {\em ACM Transactions on Graphics 31}, 6 (Nov.), 147:1--10.
+\newblock Proceedings of ACM SIGGRAPH Asia 2012, Singapore.
+
+\bibitem[\protect\citename{Nathan }2010]{clothmesh}
+{\sc Nathan, P.}, 2010.
+\newblock Mass spring damper cloth simulation 2.
+\newblock \url{https://youtu.be/qOvb3WLAX0E}, September.
+
+\bibitem[\protect\citename{Stacker }2014]{sail}
+{\sc Stacker}, 2014.
+\newblock Cloth simulated sail.
+\newblock \url{http://blender.stackexchange.com/a/12173}, June.
+
+\bibitem[\protect\citename{Weil }1986]{Weil}
+{\sc Weil, J.}
+\newblock 1986.
+\newblock The synthesis of cloth objects.
+\newblock {\em Computer Graphics 20}, 4.
 
 \end{thebibliography}

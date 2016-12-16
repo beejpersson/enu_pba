@@ -1,13 +1,10 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: report.aux
 The style file: acmsiggraph.bst
 Database file #1: report.bib
-Warning--I didn't find a database entry for "sail"
-Warning--I didn't find a database entry for "clothmesh"
-Warning--I didn't find a database entry for "flag"
-Warning--I didn't find a database entry for "object"
-Warning--I didn't find a database entry for "kristopher"
-Warning--I didn't find a database entry for "Weil"
-Warning--I didn't find a database entry for "Feynman"
-Warning--I didn't find a database entry for "Breen"
-Warning--I didn't find a database entry for "Karthikeyan"
-(There were 9 warnings)
+I was expecting a `,' or a `}'---line 15 of file report.bib
+ :   
+ :   howpublished = {\url{http://www.webcitation.org/5kn0XzKwB}}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty institution in Feynman
+(There was 1 error message)
