@@ -52,7 +52,7 @@ Physics-Based Animation (SET09119)}
 
 \begin{abstract}
 
-This document looks to outline the successes and failures of the proposed simulation idea and compare it to the blueprint provided by the design document. The core idea of the intended design was to simulate a directional force being applied to a cloth-like structure. The desired final aesthetic will be an interactive leaf-blower directed towards either a curtain attached to a curtain rail, a ships sail or a flag, or a choice of the above. The simulation should also include the option to throw small objects at the cloth structure or drape the cloth over certain objects and see its effects. (The images in Figure \ref{teaser} are (a) \cite{sail}, (b) \cite{clothmesh}, (c) \cite{flag} and (d) \cite{object}.)
+This document looks to outline the successes and failures of the proposed simulation idea and compare it to the blueprint provided by the design document. The core idea of the intended design was to simulate a directional force being applied to a cloth-like structure. The desired final aesthetic of an interactive leaf-blower directed towards the cloth was not achieved. The simulation is now a simple demonstration of some interactive objects and their interaction with an emphasis on collisions.
 
 \end{abstract}
 
@@ -81,14 +81,10 @@ Physically simulating natural looking cloth-like structures has often been one o
 If cloth physics can be accurately simulated, 3D game environments can take a significant step in the direction of realism and immersion. With the Virtual Reality industry expanding as fast as it is any increase in immersion is highly desired.
 
 \paragraph{Challenge \& Limitations}
-Simulating the physics of cloths can be a very difficult process due to the "incredibly complex interactions that cloth has on the macro and microscopic levels" \cite{kristopher}. There are three main approaches to simulating cloths, geometric, physical and particle based techniques, and each has their own issues. Geometric basic techniques work well for single-frame renders but not for dynamic models \cite{Weil}. Physical methods are better at dynamically modelling cloth but still don't take into account micro-interactions happening within the cloth \cite{Feynman}. Finally, particle based modelling better accounts for the complex interactions happening withing the interior of cloth structures but is the most taxing on performance \cite{Breen}.
+Simulating the physics of cloths can be a very difficult process due to the "incredibly complex interactions that cloth has on the macro and microscopic levels" \cite{kristopher}. There are three main approaches to simulating cloths, geometric, physical and particle based techniques, and each has their own issues. Geometric basic techniques work well for single-frame renders but not for dynamic models \cite{Weil}. Physical methods are better at dynamically modelling cloth but still don't take into account micro-interactions happening within the cloth \cite{Feynman}. Finally, particle based modelling better accounts for the complex interactions happening within the interior of cloth structures but is the most taxing on performance \cite{Breen}.
 
 \paragraph{Our Work}
-The intended technique to be used in this proposed simulation idea is to model the cloth as a system of interconnected particles, following the work of David Breen and a tutorial based off of what he's done. This may be limited by the amount of time available for the project, and simple techniques may need to be explored instead.
-
-\paragraph{Starting Examples}
-This design document attempts to highlight the current difficulties associated with simulating cloth-like structures in a 3D environment by considering the limitations of the methodologies discussed and in doing so indicate how the proposed simulation idea addresses these limitations.
-
+The intended technique to be used in the proposed simulation idea was to model the cloth as a system of interconnected particles, following the work of David Breen and a tutorial based off of what he's done. This was limited by the amount of time available for the project, and simple physical techniques were implemented instead.
 
 \section{Related Work}
 The most famous initial piece of work on cloth physics was Weil's geometric approach \cite{Weil} in which he represented the cloth as a grid of multiple points. Weil's work forms the basis for almost all other cloth simulation techniques \cite{Karthikeyan}. Feynman in 1986 also modelled the cloth using a grid, but using Equation \ref{eq:physical} below:
@@ -109,36 +105,28 @@ Where $U$ is the energy of the respective elements of the system.
 \section{Simulation}
 
 \paragraph{Overview}
-The core principles of the proposed simulation ideas is a system involving a curtain reacting realistically to wind or compressed air from a leaf blower, or similar. Mechanically an interactive object that will be applying a constant and direct force will be pointed towards a cloth-like structure with locked top-nodes to simulate a curtain blowing in the wind.
+The core principle of the simulation is a look at objects and their interaction. The system involves a number of interactive particle-like spheres and rigid-body cubes reacting to collisions with each other whilst under the effects of gravity. Mechanically an interactive sphere that has a linear force added moving it around the scene to collide with the other objects.
 
 \paragraph{Detailed description}
 \begin{itemize}
-\item {\bf Functionality}: The simulation will see the effects of a direct force on a cloth, and attempt to animate a realistic reaction to this force (refer to (a) in Figure \ref{teaser}). For the possible additions of different cloth structures, the functionality will be similar (with a directional force applied to the flag or sail), but the reaction should be different due to differing locked nodes. There may also be the ability to drape a cloth over an object and have objects thrown at the different cloths.
-\item {\bf Method}: The primary equation when dealing with the force applied to the cloth and its reaction will be Equation \ref{eq:fma} shown below:
-
-\begin{equation} \label{eq:fma}
-F = m\cdot a
-\end{equation}
-
-Where $F$ is the force, $m$ the mass and $a$ the acceleration. The three techniques, as described above, for modelling cloths are Geometric, physical and particle based models.
-
-\item {\bf Control/interactivity}: The leaf blower will be moveable and the power and size of the cone of force should be manipulatable, allowing differing intensities of force to be applied to different sections of the cloth.
+\item {\bf Functionality}: The simulation sees the effects of a collision between particles and attempts to animate a realistic reaction to this collision. Multiple cameras were added, and the ability to toggle between them using the keyboard. A free camera (using WASD and the mouse for movement), a target camera and a rotating camera were all added to view the scene. The objects rendered in the scene can also be toggled between two different sets of objects.
+\item {\bf Control/interactivity}: A sphere can be moved around the scene and collided with objects. The cubes can have angular momentum applied to them using the 'space' key.
 \end{itemize}
 
 \paragraph{Implementation}
 
 \begin{itemize}
-\item  {\bf Major Software Development Tasks} The primary difficulty will be accurately simulating the motion of the cloth when impacted by the force. Developing the cloth physics will likely be difficult to implement. Other important tasks are to simulate the specific type of force a leaf blower applies.
-\item {\bf Risks} If particle based modelling of the cloth-like structure proves too difficult or time consuming simpler models may need to be used to complete the project.
+\item  {\bf Major Software Development Tasks} The primary difficulty was correctly implementing collisions and ensuring they looked realistic. Developing the cloth physics would have likely been even more difficult to implement.
+\item {\bf Risks} As discussed in the design document initially, the modelling of the cloth-like structure did prove too difficult and as such simpler physical implementations were pursued.
 \end{itemize}
 
 % EVALUATION
 \section{Testing and evaluation}
-Certain tests will be carried out to ensure that the simulation works within the desired environment. For example, testing whether or not the cloth reacts realistically to the effect being hit by a thrown object or draped over a sphere. Tests will be run to analyse the performance of the software and whether its inefficient or too taxing on the GPU. Tests with volunteers will be run to determine if the design of the interactivity is intuitive and easy to use.
+Certain tests were carried out to ensure that the simulation worked within the desired environment. For example, testing whether or not the objects reacted in a visually realistic way to the effect of being hit by the sphere. Tests were also run using volunteers to determine if the design of the interactivity is intuitive and easy to use.
 
 
 \section{Conclusion and Future work}
-The desired design of the proposed simulation idea is to see the effects of focused air on a cloth-like structure with certain nodes locked in place (for example the top nodes for the rail of a curtain). There are three main modelling approaches: geometric, physical and particle based systems. The intended method to be used is a particle based model where the cloth's micro-structure is modelled by having a network of particles interacting with each other and determining the desired position of each particle (and therefore shape of the cloth) by using the energy Equation \ref{eq:particle} show above. There are certain challenges that will need to be overcome, and tests will be run to evaluate the effectiveness of the desired simulation.
+The desired design of the proposed simulation idea was to see the effects of focused air on a cloth-like structure with certain nodes locked in place (for example the top nodes for the rail of a curtain). There are three main modelling approaches: geometric, physical and particle based systems. The intended method to be used was a particle based model where the cloth's micro-structure is modelled by having a network of particles interacting with each other and determining the desired position of each particle (and therefore shape of the cloth) by using the energy Equation \ref{eq:particle} shown above. However, due to the challenges that presented themselves, this was not achieved. As such a lot of future work could still be done.
 
 
 % \section*{Acknowledgements}
